@@ -34,7 +34,22 @@ export const Sidebar = ({ children }: SidebarProps): JSX.Element => {
     name: string;
     icon: LucideIcon;
     page: Page;
+    onClick?: () => void; // Optionaler Event-Handler für Klicks
   }
+
+  const getConfigPassword = () => {
+    return process.env.REACT_APP_CONFIG_PASSWORD || "";
+  };
+
+  const handleConfigClick = () => {
+    const password = prompt("Please enter the password to access the configuration:");
+    if (password === getConfigPassword()) {
+      setActivePage("config");
+    } else {
+      alert("Wrong Password. Access denied.");
+    }
+  };
+  
 
   const pages: NavLink[] = [
     {
@@ -51,6 +66,7 @@ export const Sidebar = ({ children }: SidebarProps): JSX.Element => {
       name: "Config",
       icon: SettingsIcon,
       page: "config",
+      onClick: handleConfigClick, // Passwortschutz für "Config"
     },
     {
       name: "Channels",
